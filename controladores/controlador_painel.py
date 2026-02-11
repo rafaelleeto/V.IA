@@ -251,7 +251,8 @@ def editar_cartao(cartao_id):
 
         return render_template("componentes/cartao_unico.html",
                                cartao=cartao,
-                               mapa_cartao=mapa_cartao)
+                               mapa_cartao=mapa_cartao,
+                               clientes=clientes)
 
     except Exception as e:
         print("Erro ao editar cartão:", e)
