@@ -23,10 +23,11 @@ def api_cartao():
             .order_by(Acesso.id.desc())
             .first()
         )
+        
 
         if cartao_encontrado:
             if cartao_encontrado.tem_acesso:
-                if acesso_antigo.tipo_acesso == "Saída":
+                if not acesso_antigo or acesso_antigo.tipo_acesso == "Saída":
                     entrada_ou_saida = "Entrada"
                 else:
                     entrada_ou_saida = "Saída"
@@ -54,7 +55,7 @@ def api_cartao():
                 return jsonify({"status": "negado", "mensagem": "Acesso bloqueado"}), 403
         else:
             cartao = Cartao(
-                dono_id=" ",
+                dono_id=None,
                 chave_cartao=cartao_id,
                 tem_acesso=False
             )
@@ -63,4 +64,5 @@ def api_cartao():
 
     except Exception as e:
         print("Erro na rota /api_cartao:", e)
+        print("Acesso antigo:", acesso_antigo)
         return jsonify({"status": "erro", "mensagem": str(e)}), 500
