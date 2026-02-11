@@ -1,4 +1,3 @@
-from tkinter import Message
 from flask import Blueprint, request, render_template, redirect, session, flash, url_for,jsonify
 from modelos import Moderador
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -95,5 +94,6 @@ def validar_token(token, expiracao=3600):
         return "expirado"
     except BadSignature:
         return None
+
 
 
