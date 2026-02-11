@@ -1,0 +1,79 @@
+<div class="modal fade"
+     id="adicionar_cartao_modal"
+     tabindex="-1"
+     aria-labelledby="modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg border-0 rounded-4 bg-white site-modal">
+            <div class="modal-header border-0 rounded-top-4 modal-gradiente-vermelho text-white">
+                <h1 class="modal-title fs-4 fw-bold d-flex align-items-center gap-3"
+                    id="modalLabel">
+                    <span class="material-symbols-outlined fs-2">id_card</span> Registrar Cartão
+                </h1>
+                <button type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form hx-post="/htmx/adicionar_cartao"
+                      hx-target="#resultados-busca"
+                      hx-swap="innerHTML">
+                    <input type="hidden" name="id_cliente" value="">
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold text-secondary">
+                            <i class="bi bi-person-circle"></i> Cliente
+                        </label>
+                        <select class="js-example-basic-single form-select form-select-lg border-primary rounded-3"
+                                name="seletor">
+                            {% for cliente in clientes %}
+                                <option value="{{ cliente.id }}">{{ cliente.nome }}- {{ cliente.documento }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="modal-footer border-0 pt-3 px-0">
+                        <button type="button"
+                                class="btn btn-outline-secondary px-4 fw-semibold"
+                                data-bs-dismiss="modal">
+                            <i class="bi bi-x-lg me-1"></i> Cancelar
+                        </button>
+                        <button onclick="fecharModalAdicionarCliente()"
+                                type="submit"
+                                class="btn btn-primary px-4 fw-semibold">
+                            <i class="bi bi-check-lg me-1"></i> Confirmar Cliente
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    
+    if ($.fn.modal) {
+        $.fn.modal.Constructor.prototype._enforceFocus = function() {};
+    }
+
+ 
+    $('#adicionar_cartao_modal').on('shown.bs.modal', function () {
+        
+        
+        $('.js-example-basic-single').select2({
+            dropdownParent: $('#adicionar_cartao_modal'),
+            theme: 'bootstrap-5'
+        });
+    });
+    
+   
+});
+
+function fecharModalAdicionarCliente() {
+    const modalElement = document.getElementById('adicionar_cartao_modal');
+    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+    if (modalInstance) {
+        modalInstance.hide();
+    }
+}
+
+
+</script>

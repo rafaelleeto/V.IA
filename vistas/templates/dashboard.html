@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dashboard - V.I.A</title>
+        {% include "head_base.html" %}
+    </head>
+    <body>
+        <div class="body-geral">
+            {% include "navbar.html" %}
+            <div class="container mt-5 pb-5">
+                <div class="row row-cols-1 row-cols-md-4 g-4 mb-4">
+                    <div class="col">
+                        <div class="card h-100 card-dashboard hover-informacao sombra">
+                            <div class="card-body">
+                                <span class="material-symbols-outlined position-absolute top-0 end-0 m-3 text-white fs-1 ">door_open</span>
+                                <h6 class="text-white fw-semibold fs-3">Acessos Hoje</h6>
+                                <h1 class="text-white fw-bold ">{{ acessos_hoje }}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 card-dashboard hover-informacao sombra">
+                            <div class="card-body">
+                                <span class="material-symbols-outlined position-absolute top-0 end-0 m-3 text-white fs-1 ">credit_card</span>
+                                <h6 class="text-white fw-semibold fs-3">Cartões Ativos</h6>
+                                <h1 class="text-white fw-bold ">{{ "%.2f"|format(cartoes_ativos_porcentagem) }} %</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 card-dashboard hover-informacao sombra">
+                            <div class="card-body">
+                                <span class="material-symbols-outlined position-absolute top-0 end-0 m-3 text-white fs-1 ">person</span>
+                                <h6 class="text-white fw-semibold fs-3">Clientes Totais</h6>
+                                <h1 class="text-white fw-bold ">{{ todos_clientes }}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 hover-informacao border-0 sombra">
+                            <div class="card-body vermelho-atencao rounded-3">
+                                <span class="material-symbols-outlined position-absolute top-0 end-0 m-3 text-white fs-1 ">warning</span>
+                                <h6 class="text-white fw-semibold fs-3 ">Alertas</h6>
+                                <h1 class="text-white fw-bold ">{{ acessos_hoje }}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-cols-1 row-cols-md-2 g-4 mt-5">
+                    <div class="col">
+                        <div class="card h-100 sombra-informacao">
+                            <div class="card-body">
+                                <h4 class="text-center ">Relação moderadores ativos e inativos</h4>
+                                <img src="{{ grafico_moderador }}"
+                                     class="img-fluid mt-3 hover-informacao-pizza sombra "
+                                     alt="Gráfico de Moderadores">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 sombra-informacao">
+                            <div class="card-body">
+                                <h4 class="text-center">Quantidade de clientes por cargo</h4>
+                                <img src="{{ grafico_tipo_cliente }}"
+                                     class="img-fluid mt-3 hover-informacao sombra"
+                                     alt="Gráfico de Clientes">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-5 mb-5">
+                    <div class="col">
+                        <div class="card h-100 shadow-lg border-0">
+                            <div class="card-header bg-white border-0 py-3">
+                                <h4 class="text-center mb-0 fw-semibold">Gráfico Geral De Usuários</h4>
+                            </div>
+                            <div class="card-body d-flex justify-content-center align-items-center">
+                                <img src="{{ grafico_geral }}"
+                                     class="mt-3 hover-informacao sombra"
+                                     alt="Gráfico Geral de Acessos">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

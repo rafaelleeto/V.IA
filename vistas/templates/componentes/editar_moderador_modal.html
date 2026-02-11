@@ -1,0 +1,54 @@
+<div class="modal fade"
+     id="modalEditar{{ moderador.id }}"
+     tabindex="-1"
+     aria-labelledby="modalLabel{{ moderador.id }}"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-lg border-0 rounded-4">
+      <div class="modal-header border-0 pb-0">
+        <h1 class="modal-title fs-4 fw-semibold"
+            id="modalLabel{{ moderador.id }}">Alterar informações</h1>
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"></button>
+      </div>
+      <div class="modal-body px-4">
+        <form class="form-update"
+              hx-put="/htmx/editar_moderador/{{ moderador.id }}"
+              hx-target="#linha-moderador-{{ moderador.id }}"
+              hx-swap="outerHTML"
+              hx-trigger="submit">
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Nome</label>
+            <input type="text"
+                   class="form-control form-control-lg rounded-3"
+                   name="nome"
+                   value="{{ moderador.nome }}"
+                   required>
+          </div>
+          <hr class="my-4">
+          <h6 class="fw-semibold text-secondary mb-3">Permissões</h6>
+          <div class="form-check form-switch fs-5 mb-3">
+            <input class="form-check-input" type="checkbox" name="admin" value="1" {% if moderador.admin %}checked{%
+              endif %}>
+              <label class="form-check-label">Administrador</label>
+            </div>
+            <hr class="my-4">
+            <h6 class="fw-semibold text-secondary mb-3">Status da conta</h6>
+            <div class="form-check form-switch fs-5">
+              <input class="form-check-input" type="checkbox" name="ativo" value="1" {% if moderador.ativo %}checked{%
+                endif %}>
+                <label class="form-check-label">Conta ativa</label>
+              </div>
+              <div class="modal-footer border-0 mt-4">
+                <button type="button"
+                        class="btn btn-outline-danger px-4"
+                        data-bs-dismiss="modal">Sair</button>
+                <button type="submit" class="btn btn-primary px-4 " data-bs-dismiss="modal">Confirmar alterações</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>

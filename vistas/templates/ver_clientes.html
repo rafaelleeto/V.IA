@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ver clientes</title>
+        {% include "head_base.html" %}
+    </head>
+    <body>
+        <div class="body-geral">
+            <div id="mensagem"></div>
+            {% include "navbar.html" %}
+            <div class="container mt-3">
+                <div class="d-flex flex-column flex-md-row align-items-center bg-light p-3 rounded-3 shadow-sm">
+                    <form class="form-busca-clientes d-flex align-items-center flex-grow-1 w-100 mb-2 mb-md-0 me-md-3"
+                          role="search">
+                        <span class="material-symbols-outlined fs-1 me-2">search</span>
+                        <input class="w-100 input-busca"
+                               type="search"
+                               placeholder="Buscar Cliente..."
+                               aria-label="Buscar"
+                               hx-get="/htmx/buscar_clientes"
+                               hx-trigger="input delay:250ms"
+                               hx-target="#clientes"
+                               hx-indicator=".htmx-indicator"
+                               hx-swap="innerHTML"
+                               name="nome">
+                    </form>
+                    <div class="d-flex justify-content-between justify-content-md-end">
+                        <button class="d-flex botao-adicionar hover-scale align-items-center py-2 fs-4 justify-content-center "
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#adicionar_cliente_modal">
+                            <i class="bi bi-person-plus-fill me-3 d-flex fs-4"></i>
+                            <span class="text-white fs-5">Adicionar Cliente</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row row-cols-1 row-cols-xxl-3  g-4 mt-4 p-0 clientes"
+                     id="clientes">{% include "componentes/card_cliente.html" %}</div>
+            </div>
+            <nav aria-label="page-navegation"
+                 class="d-flex justify-content-center mt-3">
+                <ul class="pagination pagination-md d-flex gap-2">
+                    <li class="page-item proximo-e-anterior hover-scale {% if not clientes.has_prev %}disabled opacity-25 pe-none{% endif %}">
+                        <a class="d-flex justify-content-center align-items-center w-100 h-100 text-decoration-none"
+                           href="{{ url_for('painel.painel_clientes', pagina=clientes.prev_num) if clientes.has_prev else '#' }}">
+                            <span class="fw-bold fs-6 text-black">Anterior</span>
+                        </a>
+                    </li>
+                    <li class="page-item proximo-e-anterior hover-scale {% if not clientes.has_next %}disabled opacity-25 pe-none{% endif %}">
+                        <a class="d-flex justify-content-center align-items-center w-100 h-100 text-decoration-none"
+                           href="{{ url_for('painel.painel_clientes', pagina=clientes.next_num) if clientes.has_next else '#' }}">
+                            <span class="fw-bold fs-6 text-black">Próximo</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        {% include "componentes/adicionar_cliente_modal.html" %}
+        <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('adicionar_cliente_modal')
+
+            modal.addEventListener('hidden.bs.modal', () => {
+                const form = modal.querySelector('form')
+                if (form) {
+                    form.reset()
+                }
+            })
+        })
+        </script>
+    </body>
+</html>

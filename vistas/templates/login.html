@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <title>Login</title>
+        {% include "head_base.html" %}
+    </head>
+    <body>
+        <div class="body-login">
+            <div class="container d-flex align-items-center justify-content-center">
+                <div class="col-12 col-sm-8 col-md-8 col-lg-6 mx-auto">
+                    <div class="sombra d-flex justify-content-center">
+                        <img class="img-fluid" src="/static/svgs/logo.svg" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="container d-flex align-items-center justify-content-center mt-5">
+                <div class="col-12 col-sm-8 col-md-7 col-lg-5 mx-auto ">
+                    {% include "flashes.html" %}
+                    <div class="card-login rounded-5 sombra p-4 justify-content-center">
+                        <h1 class="text-center mb-4 fw-bold fs-1" style=" color: #8A0303;">Login</h1>
+                        <form method="post">
+                            <div class="mb-5">
+                                <label for="email"
+                                       class="form-label fs-3 sombra-leve-texto"
+                                       style="color: #8A0303">Email:</label>
+                                <input type="email"
+                                       class="form-control form-control-lg "
+                                       id="email"
+                                       name="email"
+                                       placeholder="Digite seu email:">
+                            </div>
+                            <div class="mb-">
+                                <label for="senha"
+                                       class="form-label fs-3 sombra-leve-texto "
+                                       style="color: #8A0303">Senha:</label>
+                                <input type="password"
+                                       class="form-control form-control-lg"
+                                       id="senha"
+                                       name="senha"
+                                       placeholder="Digite sua senha:">
+                            </div>
+                            <a class="fs-5 fst-italic" href="/esqueci_a_senha">Esqueci minha senha</a>
+                            <div class="gap-2 mt-4 mb-2 text-center">
+                                <button type="submit" class="hover-scale botao">Entrar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+</script>
+</div>
+</body>
+</html>

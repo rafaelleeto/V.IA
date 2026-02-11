@@ -1,0 +1,42 @@
+<div class="col" id="card-cliente-{{ cliente.id }}">
+    <div class="card card-cliente h-100 rounded-4 border-0">
+        <div class="card-header-cliente d-flex align-items-center gap-3 p-3">
+            <img src="https://cataas.com/cat?timestamp={{ cliente.id }}"
+                 width="72"
+                 height="72"
+                 class="avatar-cliente"
+                 alt="Avatar">
+            <div class="flex-grow-1">
+                <div class="nome-cliente fs-5">{{ cliente.nome }}</div>
+            </div>
+            <span class="badge-status {% if cliente.tem_acesso %}ativo{% else %}inativo{% endif %} fs-6">
+                {% if cliente.tem_acesso %}
+                    Ativo
+                {% else %}
+                    Inativo
+                {% endif %}
+            </span>
+        </div>
+        <div class="card-body pt-2">
+            <div class="campo-info">
+                <i class="bi bi-envelope-fill"></i>
+                <span class="texto-info">{{ cliente.email }}</span>
+            </div>
+            <div class="campo-info">
+                <i class="bi bi-credit-card-2-front-fill"></i>
+                <span class="texto-info">{{ cliente.documento }}</span>
+            </div>
+            <div class="campo-info">
+                <i class="bi bi-person-fill"></i>
+                <span class="texto-info">{{ cliente.tipo }}</span>
+            </div>
+        </div>
+        <button type="button"
+                class="card-footer  btn-editar-cliente"
+                data-bs-toggle="modal"
+                data-bs-target="#modalcliente{{ cliente.id }}">
+            <i class="bi bi-pencil-square"></i>
+            Editar
+        </button>
+    </div>
+</div>

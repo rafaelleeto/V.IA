@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include "head_base.html" %}
+    <title>Ver moderadores</title>
+  </head>
+  <body>
+    <div class="body-geral">
+      <div id="mensagem"></div>
+      {% include "navbar.html" %}
+      <div class="container mt-5">
+        <div class="d-flex flex-column flex-md-row align-items-center bg-light p-3 rounded-3 shadow-sm">
+          <form class="form-busca-clientes d-flex align-items-center flex-grow-1 w-100 mb-2 mb-md-0 me-md-3"
+                role="search">
+            <span class="material-symbols-outlined fs-1 me-2">search</span>
+            <input class="w-100 input-busca"
+                   type="search"
+                   placeholder="Buscar moderador..."
+                   aria-label="Buscar Moderador"
+                   hx-get="/htmx/buscar_moderadores"
+                   hx-trigger="input delay:250ms"
+                   hx-target="#moderadores-body"
+                   hx-indicator=".htmx-indicator"
+                   hx-swap="outerHTML"
+                   name="nome">
+          </form>
+          <div class="d-flex justify-content-between justify-content-md-end">
+            <a href="/painel/admin/criar_moderador">
+            <button class="d-flex botao-adicionar hover-scale align-items-center py-2 fs-4 justify-content-center "
+                    type="button">
+              <i class="bi bi-shield-plus me-3 d-flex fs-4"></i>
+              <span class="text-white fs-5">Adicionar Moderador</span>
+            </button>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="container mt-5">
+        <div class="bg-light p-3 rounded-3 shadow-sm">
+          <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle ">
+              <thead>
+                <tr>
+                  <th scope="col" class="text-end">ID</th>
+                  <th scope="col">Nome</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Cargo</th>
+                  <th scope="col" class="text-center">Status</th>
+                  <th scope="col" class="text-center">Editar</th>
+                  <th></th>
+                </tr>
+              </thead>
+              {% include "componentes/moderadores_body.html" %}
+            </table>
+          </div>
+        </div>
+      </div>
+      <nav aria-label="page-navegation"
+           class="d-flex justify-content-center mt-3 ">
+        <ul class="pagination pagination-md d-flex gap-2">
+          <li class="page-item proximo-e-anterior hover-scale {% if not moderadores.has_prev %}disabled opacity-25 pe-none{% endif %}">
+            <a class="d-flex justify-content-center align-items-center w-100 h-100 text-decoration-none"
+               href="{{ url_for('admin.painel_ver_moderadores', pagina=moderadores.prev_num) if moderadores.has_prev else '#' }}">
+              <span class="fw-bold fs-6 text-black">Anterior</span>
+            </a>
+          </li>
+          <li class="page-item proximo-e-anterior hover-scale {% if not moderadores.has_next %}disabled opacity-25 pe-none{% endif %}">
+            <a class="d-flex justify-content-center align-items-center w-100 h-100 text-decoration-none"
+               href="{{ url_for('admin.painel_ver_moderadores', pagina=moderadores.next_num) if moderadores.has_next else '#' }}">
+              <span class="fw-bold fs-6 text-black">Próximo</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,112 @@
+<div class="modal fade"
+     id="modalEditar{{ cartao.id }}"
+     tabindex="-1"
+     aria-labelledby="modalLabel{{ cartao.id }}"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-lg border-0 rounded-4">
+      <!-- Cabeçalho -->
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fw-semibold" id="modalLabel{{ cartao.id }}">Alterar informações do cartão</h5>
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Fechar"></button>
+      </div>
+      <!-- Corpo -->
+      <div class="modal-body px-4">
+        <form class="form-update"
+              hx-put="/htmx/editar_cartao/{{ cartao.id }}"
+              hx-target="#linha-cartao-{{ cartao.id }}"
+              hx-swap="outerHTML"
+              hx-trigger="submit">
+          <!-- Dado do dono -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Dono do Cartão</label>
+            <select class="form-select form-select-lg rounded-3 select2"
+                    name="dono_id"
+                    required>
+              {% for cliente in clientes %}
+                <option value="{{ cliente.id }}"
+                        {% if cliente.id == cartao.dono_id %}selected{% endif %}>
+                  {{ cliente.nome }} - {{ cliente.documento }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+          <!-- Chave de acesso -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Chave de acesso</label>
+            <input type="text"
+                   class="form-control form-control-lg rounded-3"
+                   name="chave_cartao"
+                   value="{{ cartao.chave_cartao }}"
+                   required>
+          </div>
+          <!-- Permissão de acesso -->
+          <div class="form-check form-switch mb-3">
+            <input class="form-check-input"
+                   type="checkbox"
+                   name="tem_acesso"
+                   value="1"
+                   {% if cartao.tem_acesso %}checked{% endif %}>
+            <label class="form-check-label">Tem acesso</label>
+          </div>
+          <!-- Rodapé -->
+          <div class="modal-footer border-0 mt-4">
+            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Sair</button>
+            <button type="submit" class="btn btn-primary">Confirmar alterações</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+/* ===============================
+   SELECT2 + HTMX (SOLUÇÃO FINAL)
+   =============================== */
+
+function initSelect2(context = document) {
+    const selects = context.querySelectorAll('select.select2');
+
+    selects.forEach(select => {
+        const $select = $(select);
+
+        // Evita duplicação / bug visual
+        if ($select.hasClass('select2-hidden-accessible')) {
+            $select.select2('destroy');
+        }
+
+        const modal = select.closest('.modal');
+
+        $select.select2({
+            theme: 'bootstrap-5',
+            width: '100%',
+            dropdownParent: modal ? $(modal) : $(document.body)
+        });
+    });
+}
+
+// 🔥 Após qualquer swap HTMX
+document.body.addEventListener('htmx:afterSwap', function (evt) {
+    initSelect2(evt.target);
+});
+
+// 🟢 Quando modal abre normalmente
+document.addEventListener('shown.bs.modal', function (evt) {
+    initSelect2(evt.target);
+});
+
+// ⚠️ Corrige conflito de foco Bootstrap x Select2
+if (window.bootstrap && bootstrap.Modal) {
+    const originalEnforceFocus = bootstrap.Modal.prototype._enforceFocus;
+
+    bootstrap.Modal.prototype._enforceFocus = function () {
+        if (document.querySelector('.select2-container--open')) {
+            return;
+        }
+        originalEnforceFocus.call(this);
+    };
+}
+</script>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% include "head_base.html" %}
+        <title>Criar Moderador</title>
+    </head>
+    <body>
+        <div class="body-geral">
+            {% include "navbar.html" %}
+            {% include "flashes.html" %}
+            <div class="container d-flex align-items-center justify-content-center mt-4">
+                <div class="col-12 col-sm-8 col-md-7 col-lg-5 mx-auto">
+                    <div class="card-login rounded-5 sombra p-4 justify-content-center">
+                        <h1 class="text-center mb-4 fw-bold fs-1" style="color: #8A0303;">Criar Moderador</h1>
+                        <form method="post">
+                            <div class="mb-4">
+                                <label for="nome"
+                                       class="form-label fs-3 sombra-leve-texto"
+                                       style="color: #8A0303">Nome:</label>
+                                <input type="nome"
+                                       class="form-control form-control-lg"
+                                       id="nome"
+                                       name="nome"
+                                       placeholder="Digite o nome do moderador:"
+                                       maxlength="120"
+                                       required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="email"
+                                       class="form-label fs-3 sombra-leve-texto"
+                                       style="color: #8A0303">Email:</label>
+                                <input type="email"
+                                       class="form-control form-control-lg"
+                                       id="email"
+                                       name="email"
+                                       placeholder="Digite o email do moderador:"
+                                       maxlength="120"
+                                       required>
+                            </div>
+                            <div class="form-check fs-3 mb-4 checkbox-centro">
+                                <input class="form-check-input custom-check"
+                                       type="checkbox"
+                                       id="adm"
+                                       name="administrador"
+                                       value="1">
+                                <label class="form-check-label custom-label ms-2 sombra-leve-texto"
+                                       style="color: #8A0303"
+                                       for="adm">Administrador</label>
+                            </div>
+                            <div class="row align-items-center mt-4 mb-5">
+                                <div class="col-2 text-start">
+                                    <a href="/painel/admin" class="d-inline-flex align-items-center">
+                                        <div class="circulo hover-scale">
+                                            <i class="material-symbols-outlined fs-1">subdirectory_arrow_left</i>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-10 text-center">
+                                    <div class="botao-cadastrar botao-cadastar ">
+                                        <button type="submit" class="hover-scale botao ">Cadastrar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

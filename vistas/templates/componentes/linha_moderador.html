@@ -1,0 +1,30 @@
+<tr class="align-middle" id="linha-moderador-{{ moderador.id }}">
+    <th scope="row" class="text-end">{{ moderador.id }}</th>
+    <td class="moderador-nome">{{ moderador.nome }}</td>
+    <td>{{ moderador.email }}</td>
+    <td class="moderador-cargo">
+        {% if moderador.admin %}
+            Administrador
+        {% else %}
+            Moderador
+        {% endif %}
+    </td>
+    <td class="moderador-status text-center ">
+        {% if moderador.ativo %}
+            <div class="fw-bold status-tabela-ativo text-white d-inline-block mx-auto">Ativo</div>
+        {% else %}
+            <div class="fw-bold status-tabela-inativo text-white d-inline-block mx-auto">Inativo</div>
+        {% endif %}
+    </td>
+    <td class="text-center">
+        <button type="button"
+                class="botao-modal"
+                data-bs-toggle="modal"
+                data-bs-target="#modalEditar{{ moderador.id }}">
+            <span class="fw-bold editar-tabela d-flex justify-content-center align-items-center text-white hover-scale">
+                <i class="bi bi-pencil me-1"></i> Editar
+            </span>
+        </button>
+    </td>
+    <td>{% include "componentes/editar_moderador_modal.html" %}</td>
+</tr>

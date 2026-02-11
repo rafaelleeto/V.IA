@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-xxl navbar-dark bg-body-tertiary nav-underline gradiente-navbar">
+    <div class="container-fluid">
+        <div class="navbar-brand px-xl-2">
+            <a href="/painel">
+                <img class="hover-scale" src="/static/svgs/logo_branca.svg" alt="logo">
+            </a>
+        </div>
+        <button class="navbar-toggler text-white"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="navbar-nav gap-4 d-flex">
+                <a class="text-white hover-scale d-flex align-items-center gap-2 nav-link {{'active' if 'home' in request.path else ''}}"
+                   href="/painel">
+                    <i class="material-symbols-outlined fs-1">home</i>
+                    <span class="fs-4">Home</span>
+                </a>
+                <a class="hover-scale d-flex align-items-center gap-2 nav-link text-white {{'active' if 'histori' in request.path  else ''}}"
+                   href="{{ url_for('painel.painel_historico', pagina=1) }}">
+                    <i class="material-symbols-outlined fs-1">history</i>
+                    <span class="fs-4">Histórico</span>
+                </a>
+                <a class="text-white hover-scale d-flex align-items-center gap-2 nav-link {{'active' if 'clientes' in request.path else ''}}"
+                   href="{{ url_for('painel.painel_clientes', pagina=1) }}">
+                    <i class="material-symbols-outlined fs-1">group</i>
+                    <span class="fs-4">Clientes</span>
+                </a>
+                <a class="text-white hover-scale d-flex align-items-center gap-2 nav-link {{'active' if 'cartoes' in request.path else ''}}"
+                   href="{{ url_for('painel.painel_cartao', pagina=1) }}">
+                    <i class="material-symbols-outlined fs-1">id_card</i>
+                    <span class="fs-4">Cartões</span>
+                </a>
+                <a class="text-white hover-scale d-flex align-items-center gap-2 nav-link {{'active' if 'admin' in request.path else ''}}"
+                   href="/painel/admin">
+                    <i class="material-symbols-outlined fs-1">shield_person</i>
+                    <span class="fs-4">Admin</span>
+                </a>
+            </div>
+            <a class="text-white hover-scale px-4 d-flex align-items-center ms-lg-auto"
+               href="/logout"
+               style="color:#8A0303">
+                <span class="fs-4">Sair</span>
+                <i class="material-symbols-outlined fs-2 ms-3">move_item</i>
+            </a>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% include "head_base.html" %}
+        <title>Histórico</title>
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+              rel="stylesheet" />
+    </head>
+    <body>
+        <div class="body-geral">
+            <div id="mensagem"></div>
+            {% include "navbar.html" %}
+            <div class="container d-flex justify-content-center mt-3">
+                <span class="fs-1 fw-semibold gradiente-texto">Histórico de acessos</span>
+            </div>
+            <div class="container mt-4">
+                <div class="d-flex flex-column flex-md-row align-items-center bg-light p-3 rounded-3 shadow-sm">
+                    <form class="form-busca-clientes d-flex align-items-center flex-grow-1 w-100 mb-2 mb-md-0 me-md-3"
+                          role="search">
+                        <span class="material-symbols-outlined fs-1 me-2 text-muted">search</span>
+                        <input class="w-100 input-busca"
+                               type="search"
+                               placeholder="Buscar Acesso..."
+                               aria-label="Buscar"
+                               hx-get="/htmx/busca_acesso"
+                               hx-trigger="keyup changed delay:250ms, keyup[key=='Enter']"
+                               hx-target="#resultados-busca"
+                               hx-indicator=".htmx-indicator"
+                               name="pesquisa">
+                    </form>
+                    <div class="d-flex  w-md-auto justify-content-between justify-content-md-end">
+                        <button class="d-flex botao-adicionar hover-scale align-items-center py-2 fs-4 justify-content-center "
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#adicionar_registro_modal">
+                            <span class="material-symbols-outlined me-3  fs-2">more_time</span>
+                            <span class="text-white fs-4">Registrar Acesso</span>
+                        </button>
+                    </div>
+                </div>
+                {% include "componentes/adicionar_registro_modal.html" %}
+            </div>
+            <div class="container mt-5">
+                <div class="bg-light p-3 rounded-3 shadow-sm">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover  align-middle">
+                            <thead>
+                                <tr class="text-center">
+                                    <th scope="col">Nome</th>
+                                    <th scope="col ">Documento</th>
+                                    <th scope="col">Local</th>
+                                    <th scope="col">Entrada/Saída</th>
+                                    <th scope="col">Data de acesso</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultados-busca">
+                                {% for acesso in acessos %}
+                                    {% include "componentes/acesso_unico.html" %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <nav aria-label="page-navegation"
+                 class="d-flex justify-content-center mt-3">
+                <ul class="pagination pagination-md d-flex gap-2">
+                    <li class="page-item proximo-e-anterior hover-scale {% if not acessos.has_prev %}disabled opacity-25 pe-none{% endif %}">
+                        <a class="d-flex justify-content-center align-items-center w-100 h-100 text-decoration-none"
+                           href="{{ url_for('painel.painel_historico', pagina=acessos.prev_num) if acessos.has_prev else '#' }}">
+                            <span class="fw-bold fs-6 text-black">Anterior</span>
+                        </a>
+                    </li>
+                    <li class="page-item proximo-e-anterior hover-scale {% if not acessos.has_next %}disabled opacity-25 pe-none{% endif %}">
+                        <a class="d-flex justify-content-center align-items-center w-100 h-100 text-decoration-none"
+                           href="{{ url_for('painel.painel_historico', pagina=acessos.next_num) if acessos.has_next else '#' }}">
+                            <span class="fw-bold fs-6 text-black">Próximo</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </body>
+</html>

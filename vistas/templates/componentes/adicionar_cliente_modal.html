@@ -1,0 +1,132 @@
+<div class="modal fade"
+     id="adicionar_cliente_modal"
+     tabindex="-1"
+     aria-labelledby="modalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg border-0 rounded-4 bg-white site-modal">
+
+            <div class="modal-header border-0 rounded-top-4 modal-gradiente-vermelho text-white">
+                <h1 class="modal-title fs-4 fw-bold d-flex align-items-center gap-3"
+                    id="modalLabel">
+                    <i class="bi bi-person-plus text-white fs-3"></i>
+                    Adicionar Cliente
+                </h1>
+                <button type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Fechar"></button>
+            </div>
+
+            <div class="modal-body p-4">
+                <form
+                    hx-post="/htmx/adicionar_cliente"
+                    hx-target="#clientes"
+                    hx-swap="innerHTML"
+                >
+                    <input type="hidden" name="id_cliente" value="INJETE_O_ID_AQUI">
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold text-secondary">
+                            <i class="bi bi-person-fill"></i> Nome
+                        </label>
+                        <input type="text"
+                               class="form-control form-control-lg border-primary rounded-3"
+                               name="nome"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            <i class="bi bi-credit-card-2-back-fill opacity-50"></i> Documento
+                        </label>
+                        <input type="text"
+                               class="form-control form-control-lg border-primary rounded-3"
+                               name="documento"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold text-secondary">
+                            <i class="bi bi-envelope-fill"></i> E-mail
+                        </label>
+                        <input type="email"
+                               class="form-control form-control-lg border-primary rounded-3"
+                               name="email"
+                               required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold text-secondary">
+                            <i class="bi bi-tag-fill"></i> Tipo
+                        </label>
+                        <select class="form-select form-select-lg border-primary rounded-3"
+                                name="tipo"
+                                required>
+                            <option disabled selected value="">Selecione...</option>
+                            <option value="aluno">Aluno</option>
+                            <option value="professor">Professor</option>
+                            <option value="visitante">Visitante</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4 p-3 border border-primary rounded-3 bg-primary-subtle">
+                        <div class="form-check form-switch fs-4 d-flex align-items-center">
+                            <input class="form-check-input me-3"
+                                   type="checkbox"
+                                   name="tem_acesso"
+                                   value="1"
+                                   checked>
+                            <label class="form-check-label fw-bold text-primary">
+                                <i class="bi bi-unlock-fill me-1"></i> Acesso Liberado
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer border-0 px-0">
+                        <button type="button"
+                                class="btn btn-outline-secondary"
+                                data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+                        <button type="submit"
+                                class="btn btn-primary">
+                            Criar Cliente
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('htmx:afterSwap', function (evt) {
+
+    if (evt.detail.target.id === 'clientes') {
+
+        const modalEl = document.getElementById('adicionar_cliente_modal')
+        if (!modalEl) return
+
+        const modalInstance =
+            bootstrap.Modal.getInstance(modalEl) ||
+            new bootstrap.Modal(modalEl)
+
+        modalInstance.hide()
+
+        // remove backdrop órfão (importante)
+        document.querySelectorAll('.modal-backdrop')
+            .forEach(b => b.remove())
+    }
+})
+
+// limpa o form ao fechar
+document
+    .getElementById('adicionar_cliente_modal')
+    .addEventListener('hidden.bs.modal', function () {
+        const form = this.querySelector('form')
+        if (form) form.reset()
+    })
+</script>

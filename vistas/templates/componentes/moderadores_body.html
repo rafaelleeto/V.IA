@@ -1,0 +1,5 @@
+<tbody hx-target="closest tr" hx-swap="outerHTML" id="moderadores-body">
+    {% for moderador in moderadores.items %}
+        {% include "componentes/linha_moderador.html" %}
+    {% endfor %}
+</tbody>

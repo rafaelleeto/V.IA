@@ -1,0 +1,47 @@
+<tr id="linha-cartao-{{ cartao.id }}">
+    <th scope="row">
+        {% if cartao.dono_id in mapa_cartao %}
+            {{ mapa_cartao[cartao.dono_id].nome }}
+        {% else %}
+            —
+        {% endif %}
+    </th>
+    <td>{{ cartao.chave_cartao }}</td>
+    <td>
+        {% if cartao.data_criacao %}
+            {{ cartao.data_criacao.strftime("%d/%m/%Y %H:%M:%S") }}
+        {% else %}
+            —
+        {% endif %}
+    </td>
+    <td>
+        <div class="fw-bold d-flex justify-content-center text-white {% if cartao.tem_acesso %}status-tabela-ativo{% else %}status-tabela-inativo{% endif %}">
+            {% if cartao.tem_acesso %}
+                Ativo
+            {% else %}
+                Inativo
+            {% endif %}
+        </div>
+    </td>
+    <td class="text-center">
+        <button type="button"
+                class="botao-modal"
+                data-bs-toggle="modal"
+                data-bs-target="#modalEditar{{ cartao.id }}">
+            <span class="fw-bold editar-tabela d-flex justify-content-center align-items-center text-white hover-scale">
+                <i class="bi bi-pencil me-1"></i> Editar
+            </span>
+        </button>
+    </td>
+    <td class="text-center">
+        <button type="button"
+                class="botao-modal fw-bold d-flex justify-content-center align-items-center text-white hover-scale limpar-cartao"
+                hx-post="{{ url_for('painel.limpar_cartao', cartao_id=cartao.id) }}"
+                hx-target="#linha-cartao-{{ cartao.id }}"
+                hx-swap="outerHTML">
+            <i class="bi bi-eraser-fill me-2"></i>Limpar
+        </button>
+    </td>
+    <!-- Modal de edição -->
+    {% include "componentes/editar_cartao_modal.html" %}
+</tr>

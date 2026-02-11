@@ -1,0 +1,19 @@
+<div id="mensagem-container" hx-swap-oob="outerHTML">
+    {% with mensagens = get_flashed_messages(with_categories=true) %}
+        {% if mensagens %}
+            <div class="flashes">
+                {% for categoria, mensagem in mensagens %}
+                    <div>
+                        <div class="alert alert-{{ categoria }} alert-dismissible " role="alert">
+                            {{ mensagem }}
+                            <button type="button"
+                                    class="btn-close "
+                                    data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+</div>

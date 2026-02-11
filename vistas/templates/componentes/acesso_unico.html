@@ -1,0 +1,15 @@
+<tr id="historico" class="text-center">
+    <th scope="row">{{ mapa_cliente[acesso.usuario_id]["nome"] }}</th>
+    <td>{{ mapa_cliente[acesso.usuario_id]["documento"] }}</td>
+    <td class="text-center align-middle">
+        {{acesso.local}}
+    </td>
+    <td class="text-center align-middle">
+        {% if acesso.tipo_acesso =="entrada" %}
+            <div class="fw-bold status-tabela-ativo text-white d-inline-block">Entrada</div>
+        {% else %}
+            <div class="fw-bold status-tabela-inativo text-white d-inline-block">Saída</div>
+        {% endif %}
+    </td>
+    <td>{{ acesso.data_criacao.strftime("%d/%m/%Y %H:%M:%S") }}</td>
+</tr>

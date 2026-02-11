@@ -1,0 +1,757 @@
+a {
+    text-decoration: none;
+}
+
+.body-login {
+    background: #8f0508;
+    background: radial-gradient(at center bottom, #980104, #3b0a3b);
+    font-family: roboto;
+    font-size: 30px;
+    height: 100vh;
+    flex-grow: 1;
+}
+
+.body-home {
+    background: #8f0508;
+    background: radial-gradient(at center bottom, #980104, #3b0a3b);
+    font-family: roboto;
+    min-height: 100vh;
+}
+
+.body-adm {
+    background: #8f0508;
+    background: radial-gradient(at center bottom, #980104, #3b0a3b);
+    font-family: roboto;
+    min-height: 100vh;
+}
+
+.botao {
+    min-width: 220px;
+    min-height: 50px;
+    background: linear-gradient(#1d7edd, #104477);
+    font-size: 36px;
+    color: white;
+    border-radius: 40rem;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 102, 255, 0.35);
+}
+
+.card-azul {
+    min-width: 275px;
+    min-height: 275px;
+    color: white;
+    background: linear-gradient(#1d7edd, #104477);
+    border: none;
+    backdrop-filter: blur(15px);
+    border-radius: 25px;
+}
+
+.card-informacao {
+    color: white;
+    min-width: 275px;
+    min-height: 146px;
+    background: rgba(0, 0, 0, 16%);
+    border-radius: 25px;
+    border: none;
+}
+
+.card-login {
+    max-height: 500px;
+    background-color: white;
+}
+
+.sombra {
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+}
+
+.sombra-leve-texto {
+    text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+}
+
+input.form-control {
+    border: 2px solid #6b0d0f;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 1rem;
+    background-color: #fff;
+    transition: all .25s ease;
+}
+
+
+input.form-control:hover {
+    border-color: #8f1012;
+}
+
+input.form-control::placeholder {
+    color: #b5b5b5;
+    opacity: 1;
+}
+
+.hover-scale {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out,
+        filter 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+
+
+.hover-scale:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+.hover-cor:hover {
+    color: blue;
+}
+
+
+
+.hover-scale:active {
+    transform: translateY(5px) scale(1.1);
+}
+
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 15px 0;
+}
+
+
+
+@media (max-width: 576px) {
+    .menu-card .card-title {
+        font-size: 1.5rem;
+    }
+
+    .menu-card .card-subtitle {
+        font-size: 0.7rem;
+    }
+}
+
+.menu-center-wrapper {
+    /* Centraliza o conteúdo (menu) na tela */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    /* Ocupa o espaço restante */
+}
+
+.menu {
+    background: linear-gradient(#310A3F, #AA0608);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.icone-grande {
+    font-size: 90px;
+}
+
+.body-geral {
+    background-color: #E5E5E5;
+    font-family: roboto;
+    min-height: 100vh;
+}
+
+.gradiente-navbar {
+    background: linear-gradient(to left, #310A3F, #8A0303);
+}
+
+.gradiente-texto {
+    background: linear-gradient(to left, #310A3F, #8A0303);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.barra-de-navegacao {
+    max-width: 1500px;
+    width: 100%;
+    height: 100px;
+    background-color: white;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+
+}
+
+
+.htmx-indicator {
+    display: none;
+}
+
+.htmx-request .htmx-indicator {
+    display: inline-flex;
+}
+
+.htmx-request .htmx-hide {
+    display: none;
+}
+
+/* ---------------------------------------------------- */
+/* 1. ESTILO BASE (.input-busca) */
+/* ---------------------------------------------------- */
+.input-busca {
+    background-color: #E5E5E5;
+    width: 100%;
+    max-width: 100%;
+    height: 50px;
+    border-radius: 15px;
+    border: none;
+
+    /* Sombra Original (ajustada para um visual mais limpo e sutil) */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+
+    /* 🔑 ESSENCIAL: Transição suave para TODAS as propriedades, incluindo transform */
+    transition: box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+
+    /* Garante que o contorno padrão do navegador seja removido */
+    outline: none;
+
+    /* Garante que a transformação não afete a posição de outros elementos */
+    will-change: transform;
+}
+
+/* ---------------------------------------------------- */
+/* 2. ESTILO DE FOCO (:focus) - Incluindo Transform */
+/* ---------------------------------------------------- */
+.input-busca:focus {
+    /* Remove a sombra externa/padrão ao focar (se houver) */
+    box-shadow: none;
+
+    /* 🎨 EFEITO PRINCIPAL: Sombra interna sutil para o foco */
+    /* Cria um contorno cinza suave e limpo */
+    box-shadow: inset 0 0 0 1px #999999,
+        /* Contorno interno */
+        0 1px 3px rgba(0, 0, 0, 0.1);
+    /* Mantém uma sombra externa suave */
+
+    /* Opcional: Muda o fundo para branco quando focado */
+    background-color: #FFFFFF;
+
+    /* 🚀 ANIMAÇÃO DE TRANSFORM: Reduz o input em 2% para simular um "clique" */
+    transform: scale(0.98);
+    /* Reduz para 98% do tamanho original */
+
+    /* Garante que o contorno nativo do navegador seja sempre removido */
+    outline: none;
+}
+
+.card-filtro {
+    width: 150px;
+    height: 40px;
+    background-color: white;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    border-radius: 10px;
+}
+
+.circulo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #787b7D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.botao-cadastar {
+    margin-right: 75px;
+}
+
+.checkbox-centro {
+    justify-self: center;
+
+}
+
+.custom-check {
+    border: solid 2px rgb(39, 39, 39);
+}
+
+.flashes {
+    position: fixed;
+    top: 120px;
+    right: 20px;
+    width: 350px;
+    z-index: 2000;
+}
+
+.alert {
+    border-radius: 14px !important;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 15px 18px !important;
+    border: none !important;
+    opacity: 0;
+    transform: translateX(20px);
+    animation: slideIn 0.35s ease forwards;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+}
+
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.alert-success {
+    background-color: #1DBF73 !important;
+    color: white !important;
+    box-shadow: 0 0 12px rgba(29, 191, 115, 0.6);
+}
+
+.alert-danger {
+    background-color: #E74C3C !important;
+    color: white !important;
+    box-shadow: 0 0 12px rgba(231, 76, 60, 0.6);
+}
+
+.alert-warning {
+    background-color: #F1C40F !important;
+    color: black !important;
+    box-shadow: 0 0 12px rgba(241, 196, 15, 0.6);
+}
+
+.alert-info {
+    background-color: #3498DB !important;
+    color: white !important;
+    box-shadow: 0 0 12px rgba(52, 152, 219, 0.6);
+}
+
+.alert .btn-close {
+    filter: invert(1);
+}
+
+.container-tabela {
+    max-height: 500px;
+    background-color: white;
+
+}
+
+.numero-navegacao {
+    width: 40px;
+    height: 40px;
+    background-color: #ffff;
+    border-radius: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.proximo-e-anterior {
+    width: 90px;
+    height: 40px;
+    background-color: #ffff;
+    border-radius: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+/* ---------------------------------------------------- */
+/* 1. Transição Suave e Estilo Base (Atualizado) */
+/* ---------------------------------------------------- */
+
+.numero-navegacao,
+.proximo-e-anterior {
+    /* ... (outras propriedades como width, height, box-shadow, etc.) ... */
+
+    /* 🔑 ESSENCIAL: Garante a transição suave de 0.3s para ambas as classes */
+    transition: all 0.3s ease-in-out;
+}
+
+/* ---------------------------------------------------- */
+/* 2. EFEITO HOVER COMBINADO (Vermelho Bordô) */
+/* ---------------------------------------------------- */
+
+.numero-navegacao:not(.active):not(.disabled):hover,
+.proximo-e-anterior:hover {
+
+    /* 🔴 Cor Sólida: Bordô Escuro */
+    background-color: #A52A2A;
+
+    /* ⚪ Mudar a cor do texto para branco */
+    color: #FFFFFF;
+
+    /* Efeito de elevação sutil no hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+}
+
+
+@media (max-width: 767.98px) {
+    /* ... (outras regras) ... */
+
+    /* Regras específicas para o botão Exportar (.botao) */
+    .botao {
+        /* Remove o min-width para que ele respeite o w-50 do Bootstrap */
+        min-width: unset;
+
+        /* Reduz a altura */
+        min-height: 40px;
+
+        /* Reduz drasticamente a fonte para caber no 50% da tela */
+        font-size: 1rem !important;
+
+        /* Ajusta o padding para centralizar melhor o conteúdo */
+        padding: .5rem 1rem !important;
+    }
+
+    /* Ajuste para o ícone (download) */
+    .botao>i {
+        margin-right: .5rem !important;
+        /* Reduz o espaçamento do ícone */
+        font-size: 1.2rem !important;
+        /* Garante que o ícone não seja muito grande */
+    }
+
+    /* Ajuste para o botão Filtros (para ser consistente) */
+    .btn-outline-secondary {
+        min-height: 40px;
+        font-size: 1rem !important;
+        padding: .5rem 1rem !important;
+    }
+}
+
+
+
+.status-tabela-ativo {
+    width: 70px;
+    height: 25px;
+    background: linear-gradient(to right, #13551d, #1a5503);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+.status-tabela-inativo {
+    width: 70px;
+    height: 25px;
+    background-color: rgb(97, 97, 97);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+}
+
+.editar-tabela {
+    width: 80px;
+    height: 25px;
+    background-color: #3B82F6;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+
+}
+
+.editar-cliente {
+    width: 150px;
+    height: 40px;
+    background: linear-gradient(to right, #0b467e, #008cff);
+    border-radius: 10px;
+}
+
+.alterar-senha-tabela {
+    width: 120px;
+    height: 25px;
+    background-color: #7C3AED;
+    border-radius: 10px;
+    justify-self: center;
+
+}
+
+.botao-modal {
+    background: transparent;
+    border: none;
+}
+
+.checkbox-grande {
+    transform: scale(1.5);
+    cursor: pointer;
+}
+
+.navbar {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.botao-adicionar {
+    min-width: 250px;
+    min-height: 50px;
+    background: linear-gradient(to right, #240101, #8A0303);
+    font-size: 36px;
+    color: #fff;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+
+.modal-gradiente-vermelho {
+    background: linear-gradient(to right, #240101, #8A0303);
+}
+
+
+
+
+/* ===============================
+   CARD CLIENTE – BASE
+================================ */
+.card-cliente {
+    background: #ffffff;
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, .10);
+    transition: all .35s ease;
+    overflow: hidden;
+}
+
+/* Hover com movimento premium */
+.card-cliente:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow:
+        0 26px 48px rgba(0, 0, 0, .22),
+        0 0 0 1px rgba(138, 3, 3, .15);
+}
+
+/* ===============================
+   HEADER DO CARD
+================================ */
+.card-header-cliente {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: white;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Avatar */
+.avatar-cliente {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #68615c;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, .35);
+}
+
+/* Nome */
+.nome-cliente {
+    color: #303030;
+    font-size: 1.3rem;
+
+}
+
+/* ===============================
+   BADGE DE STATUS
+================================ */
+.badge-status {
+    margin-left: auto;
+    font-size: .75rem;
+    padding: .45em .85em;
+    border-radius: 999px;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+
+}
+
+.badge-status.ativo {
+    background: linear-gradient(135deg, #0E5E2A, #1DB954);
+    box-shadow: 0 4px 14px rgba(29, 185, 84, .45);
+}
+
+.badge-status.inativo {
+    background: linear-gradient(135deg, #7a7a7a, #5c5c5c);
+    box-shadow: 0 4px 14px rgba(131, 131, 131, 0.45);
+}
+
+/* ===============================
+   BODY – INFORMAÇÕES
+================================ */
+.card-body {
+    padding: 16px;
+}
+
+/* Campos de info (email/documento) */
+.campo-info {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    padding: .55rem .75rem;
+    margin-bottom: .5rem;
+    border-radius: 10px;
+
+    background: #f1f5f9;
+    font-size: .92rem;
+    color: #374151;
+}
+
+.campo-info i {
+    color: #8A0303;
+    font-size: 1.05rem;
+}
+
+.texto-info {
+    word-break: break-all;
+}
+
+/* ===============================
+   BOTÃO EDITAR
+================================ */
+.btn-editar-cliente {
+    width: 100%;
+    background: linear-gradient(to left, #1d7edd, #104477);
+    color: #fff;
+    border: none;
+    border-radius: 0 0 16px 16px;
+    padding: .85rem;
+
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: .4px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .45rem;
+
+    transition: all .3s ease;
+}
+
+.btn-editar-cliente:hover {
+    filter: brightness(1.08);
+    transform: scale(1.03);
+    box-shadow: 0 -6px 22px rgba(12, 79, 134, 0.55);
+}
+
+.btn-editar-cliente:active {
+    transform: scale(.96);
+}
+
+/* ===============================
+   RESPONSIVIDADE
+================================ */
+
+
+.card-header-cliente::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg,
+            rgba(255, 255, 255, .08),
+            rgba(255, 255, 255, 0));
+    pointer-events: none;
+}
+
+
+/* ===== WRAPPER DO FORM ===== */
+.form-busca-clientes {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 0.35rem 0.75rem;
+
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.08),
+        inset 0 0 0 1px rgba(23, 66, 146, 0.08);
+
+    transition: all .25s ease;
+}
+
+/* Hover leve */
+.form-busca-clientes:hover {
+    box-shadow:
+        0 10px 28px rgba(0, 0, 0, 0.12),
+        inset 0 0 0 1px rgba(23, 66, 146, 0.18);
+}
+
+/* ===== INPUT ===== */
+.input-busca {
+    border: none;
+    outline: none;
+    box-shadow: none !important;
+
+    font-size: 1rem;
+    padding: 0.65rem 0.5rem;
+    background: transparent;
+    color: #1f2937;
+
+    transition: all .2s ease;
+}
+
+/* Placeholder elegante */
+.input-busca::placeholder {
+    color: #9ca3af;
+    font-weight: 500;
+    letter-spacing: .2px;
+}
+
+/* Focus real */
+.form-busca-clientes:focus-within {
+    box-shadow:
+        0 12px 34px rgba(23, 66, 146, 0.28),
+        inset 0 0 0 2px rgba(23, 66, 146, 0.85);
+}
+
+/* ===== ÍCONE ===== */
+.form-busca-clientes .material-symbols-outlined {
+    color: #292828;
+    transition: all .25s ease;
+}
+
+.form-busca-clientes:focus-within .material-symbols-outlined {
+    color: #383737;
+    transform: scale(1.08);
+}
+
+.modal-gradiente-azul {
+    background: linear-gradient(to left, #1d7edd, #104477)
+}
+
+.card-dashboard {
+    background: linear-gradient(#3c7c56, #257c33);
+    border: none;
+}
+
+
+
+.hover-informacao {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out,
+        filter 0.3s ease-in-out;
+}
+
+
+
+.hover-informacao:hover {
+    transform: scale(1.05);
+}
+
+
+.hover-informacao-pizza {
+    transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out,
+        filter 0.5s ease-in-out;
+}
+
+
+
+.hover-informacao-pizza:hover {
+    transform: scale(1.2);
+}
+
+.vermelho-atencao {
+    background: linear-gradient(#580707, #8A0303);
+    border: none;
+}
+
+.sombra-informacao {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.limpar-cartao {
+    width: 100px;
+    height: 25px;
+    background-color: #c52e2e;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

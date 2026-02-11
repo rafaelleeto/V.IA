@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% include "head_base.html" %}
+        <title>Cartões</title>
+    </head>
+    <body>
+        <div class="body-geral">
+            {% include "navbar.html" %}
+            <div class="container mt-5">
+                <div class="d-flex flex-column flex-md-row align-items-center bg-light p-3 rounded-3 shadow-sm">
+                    <form class="form-busca-clientes d-flex align-items-center flex-grow-1 w-100 mb-2 mb-md-0 me-md-3"
+                          role="search">
+                        <span class="material-symbols-outlined fs-1 me-2 text-muted">search</span>
+                        <input class="w-100 input-busca"
+                               type="search"
+                               placeholder="Buscar Cartão..."
+                               aria-label="Buscar"
+                               hx-get="/htmx/busca_cartao"
+                               hx-trigger="keyup changed delay:250ms, keyup[key=='Enter']"
+                               hx-target="#resultados-busca"
+                               name="pesquisa"
+                               hx-swap="outerHTML">
+                    </form>
+                    <div class="d-flex  w-md-auto justify-content-between justify-content-md-end">
+                        <button class="d-flex botao-adicionar hover-scale align-items-center py-2 fs-4 justify-content-center "
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#adicionar_cartao_modal">
+                            <span class="material-symbols-outlined me-3 fs-2">id_card</span>
+                            <span class="text-white fs-4">Registrar Cartão</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="container mt-5">
+                <div class="bg-light p-3 rounded-3 shadow-sm">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Proprietário</th>
+                                    <th scope="col">Chave do cartão</th>
+                                    <th scope="col">Data de registro</th>
+                                    <th scope="col">Status</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            {% include "componentes/cartao_body.html" %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <nav aria-label="page-navegation"
+                 class="d-flex justify-content-center mt-4">
+                <ul class="pagination pagination-md d-flex gap-2">
+                    <li class="page-item proximo-e-anterior hover-scale {% if not cartoes.has_prev %}disabled opacity-25 pe-none{% endif %}">
+                        <a class="d-flex justify-content-center align-items-center w-100 h-100 text-decoration-none"
+                           href="{{ url_for('painel.painel_cartao', pagina=cartoes.prev_num) if cartoes.has_prev else '#' }}">
+                            <span class="fw-bold fs-6 text-black">Anterior</span>
+                        </a>
+                    </li>
+                    <li class="page-item proximo-e-anterior hover-scale {% if not cartoes.has_next %}disabled opacity-25 pe-none{% endif %}">
+                        <a class="d-flex justify-content-center align-items-center w-100 h-100 text-decoration-none"
+                           href="{{ url_for('painel.painel_cartao', pagina=cartoes.next_num) if cartoes.has_next else '#' }}">
+                            <span class="fw-bold fs-6 text-black">Próximo</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        {% include "componentes/adicionar_cartao_modal.html" %}
+    </body>
+    <script>
+        document.body.addEventListener('htmx:afterRequest', function (evt) {
+
+            const path = evt.detail.requestConfig?.path || '';
+
+            if (!path.startsWith('/htmx/editar_cartao/')) return;
+
+            const modalAberto = document.querySelector('.modal.show');
+            if (!modalAberto) return;
+
+            const instance = bootstrap.Modal.getInstance(modalAberto);
+            if (instance) {
+                instance.hide();
+            }
+            document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
+            document.body.classList.remove('modal-open');
+            document.body.style.removeProperty('overflow');
+        });
+    </script>
+</html>
