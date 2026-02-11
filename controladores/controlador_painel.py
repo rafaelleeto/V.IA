@@ -54,7 +54,7 @@ def painel_cartao(pagina):
             error_out=False
         )
         clientes = Cliente.query.all()
-        mapa_cartao = {cartao.id: cartao for cartao in clientes}
+        mapa_cartao = {cliente.id: cliente for cliente in clientes}
         return render_template("cartoes.html", cartoes=cartoes, page=pagina, mapa_cartao=mapa_cartao, clientes=clientes)
 
 
@@ -263,7 +263,7 @@ def editar_cartao(cartao_id):
 def limpar_cartao(cartao_id):
     cartao = Cartao.query.get(cartao_id)
     cartao.tem_acesso = False
-    cartao.dono_id = ' '
+    cartao.dono_id = None
     cartao.salvar()
 
     return render_template('componentes/cartao_unico.html', cartao=cartao)
