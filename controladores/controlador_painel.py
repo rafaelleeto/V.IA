@@ -203,10 +203,14 @@ def adicionar_registro():
     return html_historico + html_mensagem
 
 
+from sqlalchemy import or_
+
 @painel_blueprint.get("/htmx/busca_cartao")
 def buscar_cartao():
     pesquisa = request.args.get("pesquisa", "").strip()
     busca = f"%{pesquisa}%"
+
+    page = request.args.get("page", 1, type=int)
 
     clientes_por_nome = Cliente.query.filter(
         Cliente.nome.ilike(busca)
@@ -219,14 +223,22 @@ def buscar_cartao():
             Cartao.dono_id.in_(ids_clientes),
             Cartao.chave_cartao.ilike(busca)
         )
-    ).order_by(Cartao.id.desc()).paginate(per_page=10)
+    ).order_by(Cartao.id.desc()).paginate(
+        page=page,
+        per_page=10,
+        error_out=False
+    )
 
     clientes = Cliente.query.order_by(Cliente.nome).all()
+
+    # 🔑 MAPA NECESSÁRIO PARA O TEMPLATE
+    mapa_cartao = {c.id: c for c in clientes}
 
     return render_template(
         "componentes/cartao_body.html",
         cartoes=cartoes_filtrados,
-        clientes=clientes  # 🔴 ESSENCIAL
+        clientes=clientes,
+        mapa_cartao=mapa_cartao
     )
 
 
