@@ -249,10 +249,17 @@ def editar_cartao(cartao_id):
         clientes = Cliente.query.all()
         mapa_cartao = {cliente.id: cliente for cliente in clientes}
 
-        return render_template("componentes/cartao_unico.html",
+        html_mensagem = render_template(
+        "componentes/mensagem.html",
+        mensagens=[
+            ("success", f"Acesso do cliente registrado com sucesso.")]
+    )
+
+        html_htmx = render_template("componentes/cartao_unico.html",
                                cartao=cartao,
                                mapa_cartao=mapa_cartao,
                                clientes=clientes)
+        return html_htmx+html_mensagem
 
     except Exception as e:
         print("Erro ao editar cartão:", e)
@@ -265,5 +272,11 @@ def limpar_cartao(cartao_id):
     cartao.tem_acesso = False
     cartao.dono_id = None
     cartao.salvar()
-
-    return render_template('componentes/cartao_unico.html', cartao=cartao)
+    html_mensagem = render_template(
+        "componentes/mensagem.html",
+        mensagens=[
+            ("success", f"Cartão limpo com sucesso.")]
+    )
+    html_htmx = render_template('componentes/cartao_unico.html', cartao=cartao)
+    return html_htmx + html_mensagem
+    
