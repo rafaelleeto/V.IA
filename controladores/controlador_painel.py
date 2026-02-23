@@ -55,7 +55,14 @@ def painel_cartao(pagina):
         )
         clientes = Cliente.query.all()
         mapa_cartao = {cliente.id: cliente for cliente in clientes}
-        return render_template("cartoes.html", cartoes=cartoes, page=pagina, mapa_cartao=mapa_cartao, clientes=clientes)
+        cartao = Cartao.query.all()
+        clientes_ativos = Cliente.query.filter_by(tem_acesso=True).all()
+        ids_com_cartao = {c.dono_id for c in cartao}
+        clientes_ativos = [
+            cliente for cliente in clientes_ativos
+            if cliente.id not in ids_com_cartao
+        ]
+        return render_template("cartoes.html", cartoes=cartoes, page=pagina, mapa_cartao=mapa_cartao, clientes=clientes, clientes_ativos=clientes_ativos)
 
 
 @painel_blueprint.route("/painel/clientes/<int:pagina>")
@@ -231,7 +238,6 @@ def buscar_cartao():
 
     clientes = Cliente.query.order_by(Cliente.nome).all()
 
-    # 🔑 MAPA NECESSÁRIO PARA O TEMPLATE
     mapa_cartao = {c.id: c for c in clientes}
 
     return render_template(
@@ -249,6 +255,23 @@ def editar_cartao(cartao_id):
         dono_id = request.form.get("dono_id", "").strip()
         chave_cartao = request.form.get("chave_cartao", "").strip()
         tem_acesso = 'tem_acesso' in request.form
+        existe = Cartao.query.filter_by(dono_id=dono_id).first()
+        clientes = Cliente.query.all()
+        mapa_cartao = {cliente.id: cliente for cliente in clientes}
+        if existe:
+            html_mensagem = render_template(
+        "componentes/mensagem.html",
+        mensagens=[
+            ("warning", f"Usuário já tem um cartão.")]
+            )
+
+            html_htmx = render_template("componentes/cartao_unico.html",
+                               cartao=cartao,
+                               mapa_cartao=mapa_cartao,
+                               clientes=clientes)
+            return html_htmx+html_mensagem
+
+
 
         if dono_id:
             cartao.dono_id = int(dono_id)
@@ -258,8 +281,6 @@ def editar_cartao(cartao_id):
 
         cartao.salvar()
 
-        clientes = Cliente.query.all()
-        mapa_cartao = {cliente.id: cliente for cliente in clientes}
 
         html_mensagem = render_template(
         "componentes/mensagem.html",
@@ -284,6 +305,7 @@ def limpar_cartao(cartao_id):
     cartao.tem_acesso = False
     cartao.dono_id = None
     cartao.salvar()
+    
     html_mensagem = render_template(
         "componentes/mensagem.html",
         mensagens=[

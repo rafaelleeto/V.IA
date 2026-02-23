@@ -26,7 +26,7 @@
             <select class="form-select form-select-lg rounded-3 select2"
                     name="dono_id"
                     required>
-              {% for cliente in clientes %}
+              {% for cliente in clientes_ativos %}
                 <option value="{{ cliente.id }}"
                         {% if cliente.id == cartao.dono_id %}selected{% endif %}>
                   {{ cliente.nome }} - {{ cliente.documento }}
