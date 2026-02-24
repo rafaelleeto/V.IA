@@ -25,7 +25,7 @@ def index():
     email = request.form["email"]
 
     moderador = Moderador.query.filter_by(email=email).first()
-    if moderador is None:
+    if moderador is None or moderador.ativo == False:
         flash("Email ou senha incorretos.", "danger")
         return redirect("/")
 

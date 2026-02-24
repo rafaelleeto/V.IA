@@ -3,7 +3,6 @@ from modelos import Moderador, Cliente, Cartao, Acesso
 from datetime import date, datetime, timedelta
 from sqlalchemy import func, or_, desc
 
-
 painel_blueprint = Blueprint(
     "painel", __name__, template_folder="../vistas/templates")
 
@@ -310,7 +309,7 @@ def limpar_cartao(cartao_id):
         "componentes/mensagem.html",
         mensagens=[
             ("success", f"Cartão limpo com sucesso.")]
-    )
+    ) 
     html_htmx = render_template('componentes/cartao_unico.html', cartao=cartao)
     return html_htmx + html_mensagem
     

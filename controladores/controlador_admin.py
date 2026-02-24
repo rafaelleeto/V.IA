@@ -2,6 +2,7 @@ from flask import Blueprint, request, render_template, redirect, session, flash,
 from modelos import Moderador
 from sqlalchemy import desc, or_
 
+
 admin_blueprint = Blueprint(
     "admin", __name__, template_folder="../vistas/templates")
 
@@ -50,7 +51,19 @@ def editar_moderador(id):
     moderador.nome = request.form.get("nome")
     moderador.admin = request.form.get("admin") == "1"
     moderador.ativo = request.form.get("ativo") == "1"
-
+    if moderador.admin == 0 or moderador.ativo == 0:
+        if moderador.id == session["usuario"]:
+            moderador.admin = True
+            moderador.ativo = True
+            moderador.salvar()
+            html_moderador = render_template(
+            "componentes/linha_moderador.html", moderador=moderador)
+            html_mensagem = render_template(
+            "componentes/mensagem.html",
+            mensagens=[
+                ("warning","Você não pode tirar suas próprias permissões")]
+            )
+            return html_moderador + html_mensagem
     moderador.salvar()
 
     html_moderador = render_template(

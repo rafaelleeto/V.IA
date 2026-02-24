@@ -80,5 +80,15 @@
                 </ul>
             </nav>
         </div>
+        <script>
+  socket.on('novo_alerta', function(data) {
+    // Injeta o HTML recebido no final do body
+    // O HTMX vai detectar o atributo hx-swap-oob e mover o conteúdo para o lugar certo
+    document.body.insertAdjacentHTML('beforeend', data.html);
+    
+    // Força o HTMX a processar o novo conteúdo caso necessário
+    htmx.process(document.body);
+});
+</script>
     </body>
 </html>

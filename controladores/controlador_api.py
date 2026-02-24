@@ -1,6 +1,8 @@
-from flask import Blueprint, request, render_template, redirect, session, flash, jsonify
+from flask import Blueprint, request, render_template, redirect, session, flash, jsonify,render_template_string
 from modelos import Cartao, Acesso, Cliente
 from datetime import *
+from flask_socketio import emit
+from flask_socketio import SocketIO
 
 
 api_blueprint = Blueprint(
@@ -67,6 +69,16 @@ def api_cartao():
                 "mensagem": f"{saudacao} {cliente.nome} - Acesso Liberado",
                 "tipo": entrada_ou_saida
             }), 200
+        
+        html_alerta = render_template_string("""
+            <div id="mensagem" hx-swap-oob="true">
+                <div class="alert alert-info alert-dismissible" role="alert">
+                Um administrador acabou de entrar no painel!
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            </div>
+        """)
+        SocketIO.emit('novo_alerta', {'html': html_alerta}, namespace='/admin')
 
         cartao = Cartao(
             dono_id=None,
