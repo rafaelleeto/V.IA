@@ -1,22 +1,27 @@
-from flask import Blueprint, request, render_template, redirect, session, flash, jsonify,render_template_string
+from flask import Blueprint, request, render_template, jsonify, session
 from modelos import Cartao, Acesso, Cliente
-from datetime import *
-from flask_socketio import emit
-from flask_socketio import SocketIO
-
+from datetime import datetime
+from extensoes import socketio
 
 api_blueprint = Blueprint(
-    "api", __name__, template_folder="../vistas/templates")
+    "api",
+    __name__,
+    template_folder="../vistas/templates"
+)
 
 
 @api_blueprint.route("/api_cartao", methods=["POST"])
 def api_cartao():
-    acesso_antigo = None 
+    acesso_antigo = None
 
     try:
         cartao_info = request.get_json()
+
         if not cartao_info or "uid" not in cartao_info:
-            return jsonify({"status": "erro", "mensagem": "JSON inválido"}), 400
+            return jsonify({
+                "status": "erro",
+                "mensagem": "JSON inválido"
+            }), 400
 
         cartao_id = cartao_info["uid"]
 
@@ -31,8 +36,33 @@ def api_cartao():
             .first()
         )
 
+        # =============================
+        # CARTÃO JÁ EXISTE
+        # =============================
         if cartao_encontrado:
+
+            cliente = Cliente.query.filter_by(
+                id=cartao_encontrado.dono_id
+            ).first()
+
+            nome_cliente = cliente.nome if cliente else "Usuário não identificado"
+
             if not cartao_encontrado.tem_acesso:
+                mensagens = [
+                    ("danger", f"Acesso bloqueado! {nome_cliente}")
+                ]
+
+                html_alerta = render_template(
+                    "componentes/mensagem.html",
+                    mensagens=mensagens
+                )
+
+                socketio.emit(
+                    'novo_alerta',
+                    {'html': html_alerta},
+                    namespace='/admin'
+                )
+
                 return jsonify({
                     "status": "negado",
                     "mensagem": "Acesso bloqueado"
@@ -51,34 +81,53 @@ def api_cartao():
             )
             acesso.salvar()
 
-            cliente = Cliente.query.filter_by(
-                id=cartao_encontrado.dono_id
-            ).first()
-
             hora_agora = datetime.now().hour
 
             if hora_agora < 12:
                 saudacao = "Bom dia"
             elif hora_agora < 18:
-                saudacao = "Boa Tarde"
+                saudacao = "Boa tarde"
             else:
-                saudacao = "Boa Noite"
+                saudacao = "Boa noite"
+
+            mensagens = [
+                ("success", f"{nome_cliente} - {entrada_ou_saida} autorizada")
+            ]
+
+            html_alerta = render_template(
+                "componentes/mensagem.html",
+                mensagens=mensagens
+            )
+
+            socketio.emit(
+                'novo_alerta',
+                {'html': html_alerta},
+                namespace='/admin'
+            )
 
             return jsonify({
                 "status": "ok",
-                "mensagem": f"{saudacao} {cliente.nome} - Acesso Liberado",
+                "mensagem": f"{saudacao} {nome_cliente} - Acesso liberado",
                 "tipo": entrada_ou_saida
             }), 200
-        
-        html_alerta = render_template_string("""
-            <div id="mensagem" hx-swap-oob="true">
-                <div class="alert alert-info alert-dismissible" role="alert">
-                Um administrador acabou de entrar no painel!
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            </div>
-        """)
-        SocketIO.emit('novo_alerta', {'html': html_alerta}, namespace='/admin')
+
+        # =============================
+        # CARTÃO NOVO
+        # =============================
+        mensagens = [
+            ("warning", f"Novo cartão registrado: {cartao_id}")
+        ]
+
+        html_alerta = render_template(
+            "componentes/mensagem.html",
+            mensagens=mensagens
+        )
+
+        socketio.emit(
+            'novo_alerta',
+            {'html': html_alerta},
+            namespace='/admin'
+        )
 
         cartao = Cartao(
             dono_id=None,
@@ -93,9 +142,21 @@ def api_cartao():
         }), 201
 
     except Exception as e:
-        print("Erro na rota /api_cartao:", e)
+        import traceback
+        traceback.print_exc()
         print("Acesso antigo:", acesso_antigo)
+
         return jsonify({
             "status": "erro",
             "mensagem": "Erro interno no servidor"
         }), 500
+
+
+@socketio.on('connect', namespace='/admin')
+def connect_admin():
+    print("Cartão On")
+
+
+@socketio.on('disconnect', namespace='/admin')
+def disconnect_admin():
+    print("Cartão off")

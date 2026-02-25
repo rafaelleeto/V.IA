@@ -80,14 +80,34 @@
                 </ul>
             </nav>
         </div>
+        <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
         <script>
-  socket.on('novo_alerta', function(data) {
-    // Injeta o HTML recebido no final do body
-    // O HTMX vai detectar o atributo hx-swap-oob e mover o conteúdo para o lugar certo
-    document.body.insertAdjacentHTML('beforeend', data.html);
-    
-    // Força o HTMX a processar o novo conteúdo caso necessário
-    htmx.process(document.body);
+var socket = io('/admin', {
+    transports: ['websocket', 'polling']
+});
+
+socket.on('connect', function() {
+    console.log('Conectado ao namespace /admin');
+});
+
+socket.on('novo_alerta', function(data) {
+    const container = document.getElementById('mensagem');
+
+    // Insere o HTML do alerta
+    container.insertAdjacentHTML('beforeend', data.html);
+
+    // Processa HTMX (hx-swap-oob)
+    if (window.htmx) {
+        htmx.process(container);
+    }
+
+    // ⏱ Remove alertas após 5 segundos
+    container.querySelectorAll('.alert').forEach(alerta => {
+        setTimeout(() => {
+            alerta.classList.remove('show'); // fade bootstrap
+            setTimeout(() => alerta.remove(), 300);
+        }, 5000);
+    });
 });
 </script>
     </body>

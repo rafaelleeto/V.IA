@@ -8,11 +8,11 @@ from controladores.controlador_painel import painel_blueprint
 from controladores.controlador_admin import admin_blueprint
 from controladores.controlador_dashboard import dashboard_blueprint
 from controladores.controlador_api import api_blueprint
-from extensoes import mail
+from extensoes import mail,socketio
 from flask_socketio import SocketIO
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+socketio.init_app(app)
 
 app.config.from_object(Config)
 mail.init_app(app)
@@ -83,4 +83,4 @@ def preguiça_4():
 
 
 if __name__ == "__main__":
-    socketio.run(app)
+    socketio.run(app, host="0.0.0.0", port=5000)
