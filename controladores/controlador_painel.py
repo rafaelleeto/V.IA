@@ -250,52 +250,65 @@ def buscar_cartao():
 @painel_blueprint.route("/htmx/editar_cartao/<int:cartao_id>", methods=["PUT"])
 def editar_cartao(cartao_id):
     cartao = Cartao.query.get_or_404(cartao_id)
+
     try:
-        dono_id = request.form.get("dono_id", "").strip()
-        chave_cartao = request.form.get("chave_cartao", "").strip()
+        dono_id = request.form.get("dono_id") or None
+        chave_cartao = request.form.get("chave_cartao") or None
         tem_acesso = 'tem_acesso' in request.form
-        existe = Cartao.query.filter_by(dono_id=dono_id).first()
+
         clientes = Cliente.query.all()
         mapa_cartao = {cliente.id: cliente for cliente in clientes}
-        if existe:
-            html_mensagem = render_template(
-        "componentes/mensagem.html",
-        mensagens=[
-            ("warning", f"Usuário já tem um cartão.")]
-            )
-
-            html_htmx = render_template("componentes/cartao_unico.html",
-                               cartao=cartao,
-                               mapa_cartao=mapa_cartao,
-                               clientes=clientes)
-            return html_htmx+html_mensagem
-
-
 
         if dono_id:
+            existe = Cartao.query.filter(
+                Cartao.dono_id == int(dono_id),
+                Cartao.id != cartao.id
+            ).first()
+
+            if existe:
+                html_mensagem = render_template(
+                    "componentes/mensagem.html",
+                    mensagens=[("warning", "Usuário já tem um cartão.")]
+                )
+
+                html_htmx = render_template(
+                    "componentes/cartao_unico.html",
+                    cartao=cartao,
+                    mapa_cartao=mapa_cartao,
+                    clientes=clientes
+                )
+
+                return html_htmx + html_mensagem
+
             cartao.dono_id = int(dono_id)
+
         if chave_cartao:
             cartao.chave_cartao = chave_cartao
-        cartao.tem_acesso = tem_acesso
 
+        cartao.tem_acesso = tem_acesso
         cartao.salvar()
 
-
         html_mensagem = render_template(
-        "componentes/mensagem.html",
-        mensagens=[
-            ("success", f"Acesso do cliente registrado com sucesso.")]
-    )
+            "componentes/mensagem.html",
+            mensagens=[("success", "Acesso do cliente registrado com sucesso.")]
+        )
 
-        html_htmx = render_template("componentes/cartao_unico.html",
-                               cartao=cartao,
-                               mapa_cartao=mapa_cartao,
-                               clientes=clientes)
-        return html_htmx+html_mensagem
+        html_htmx = render_template(
+            "componentes/cartao_unico.html",
+            cartao=cartao,
+            mapa_cartao=mapa_cartao,
+            clientes=clientes
+        )
+
+        return html_htmx + html_mensagem
 
     except Exception as e:
         print("Erro ao editar cartão:", e)
-        return jsonify({"status": "erro", "mensagem": str(e)}), 500
+        html_erro = render_template(
+            "componentes/mensagem.html",
+            mensagens=[("danger", f"Erro ao editar cartão: {e}")]
+        )
+        return html_erro, 500
 
 
 @painel_blueprint.route('/cartao/<int:cartao_id>/limpar', methods=['POST'])
