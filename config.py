@@ -1,5 +1,7 @@
 import os
 from dotenv import load_dotenv
+from sqlalchemy.pool import NullPool
+
 
 load_dotenv()
 
@@ -7,6 +9,9 @@ load_dotenv()
 class Config:
     SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        "poolclass": NullPool
+    }
     SECRET_KEY = os.getenv("SECRET_KEY")
     MAIL_SERVER = os.getenv("MAIL_SERVER")
     MAIL_PORT = int(os.getenv("MAIL_PORT") or 25)
