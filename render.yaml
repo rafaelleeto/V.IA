@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: VIA
-    env: python
-    pythonVersion: 3.12.2
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn wsgi:app
