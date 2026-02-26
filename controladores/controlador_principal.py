@@ -5,8 +5,11 @@ from flask_mail import Message
 from extensoes import mail
 from flask_mail import Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
+from flask import current_app
 
-s = URLSafeTimedSerializer('chave_secreta_para_token')
+def get_serializer():
+    return URLSafeTimedSerializer(current_app.config["SECRET_KEY"])
+
 
 principal_blueprint = Blueprint(
     "principal", __name__, template_folder="../vistas/templates")
@@ -46,11 +49,13 @@ def recuperar_senha():
     if not Moderador.query.filter_by(email=email).first():
         flash("Email não cadastrado.", "danger")
         return redirect("/esqueci_a_senha")
+    s = get_serializer()
     token = s.dumps(email, salt='recuperacao-senha')
     link = url_for(
         "principal.mudar_senha",
         token=token,
-        _external=True,  # Gera url completa pensando no render, sem a necessidade do localhost
+        _external=True,
+        _scheme="https"
     )
     msg = Message(
         subject="Recuperação de senha",
@@ -70,7 +75,7 @@ def mudar_senha(token):
         return redirect("/esqueci_a_senha")
     if email is None:
         flash("Link de recuperação inválido.", "danger")
-        return redirect("/recuperacao_senha")
+        return redirect("/esqueci_a_senha")
     if request.method == 'GET':
         return render_template('mudar_senha.html', token=token)
     nova_senha = request.form['senha']
@@ -88,6 +93,7 @@ def mudar_senha(token):
 
 def validar_token(token, expiracao=3600):
     try:
+        s = get_serializer()
         email = s.loads(token, salt='recuperacao-senha', max_age=expiracao)
         return email
     except SignatureExpired:

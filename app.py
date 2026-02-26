@@ -12,10 +12,10 @@ from extensoes import mail,socketio
 from flask_socketio import SocketIO
 
 app = Flask(__name__)
-socketio.init_app(app)
-
 app.config.from_object(Config)
+
 mail.init_app(app)
+socketio.init_app(app)
 
 # Banco de dados + migração
 db.init_app(app)
