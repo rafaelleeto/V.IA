@@ -1,15 +1,46 @@
 <tr id="historico" class="text-center">
-    <th scope="row">{{ mapa_cliente[acesso.usuario_id]["nome"] }}</th>
-    <td>{{ mapa_cliente[acesso.usuario_id]["documento"] }}</td>
-    <td class="text-center align-middle">
-        {{acesso.local}}
-    </td>
-    <td class="text-center align-middle">
-        {% if acesso.tipo_acesso =="Entrada" %}
-            <div class="fw-bold status-tabela-ativo text-white d-inline-block">Entrada</div>
+    {# Pega o cliente do mapa, se existir #}
+    {% set cliente = mapa_cliente.get(acesso.usuario_id) %}
+
+    <th scope="row">
+        {% if cliente %}
+            {{ cliente["nome"] }}
         {% else %}
-            <div class="fw-bold status-tabela-inativo text-white d-inline-block">Saída</div>
+            <span class="text-muted">Não identificado</span>
+        {% endif %}
+    </th>
+
+    <td>
+        {% if cliente %}
+            {{ cliente["documento"] }}
+        {% else %}
+            -
         {% endif %}
     </td>
-    <td>{{ acesso.data_criacao.strftime("%d/%m/%Y %H:%M:%S") }}</td>
+
+    <td class="text-center align-middle">
+        {{ acesso.local }}
+    </td>
+
+    <td class="text-center align-middle">
+        {% if not acesso.liberado_ou_bloqueado %}
+            <div class="fw-bold status-tabela-bloqueado text-white d-inline-block">
+                Acesso Bloqueado
+            </div>
+        {% else %}
+            {% if acesso.tipo_acesso == "Entrada" %}
+                <div class="fw-bold status-tabela-ativo text-white d-inline-block">
+                    Entrada
+                </div>
+            {% else %}
+                <div class="fw-bold status-tabela-inativo text-white d-inline-block">
+                    Saída
+                </div>
+            {% endif %}
+        {% endif %}
+    </td>
+
+    <td>
+        {{ acesso.data_criacao.strftime("%d/%m/%Y %H:%M:%S") }}
+    </td>
 </tr>

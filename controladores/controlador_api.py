@@ -63,6 +63,17 @@ def api_cartao():
                     namespace='/admin'
                 )
 
+                acesso = Acesso(
+                usuario_id=cartao_encontrado.dono_id,
+                cartao_id=cartao_id,
+                tipo_acesso=None,
+                local="Rua Paula Gomes",
+                liberado_ou_bloqueado = False
+                )
+                acesso.salvar()
+
+                
+
                 return jsonify({
                     "status": "negado",
                     "mensagem": "Acesso bloqueado"
@@ -77,7 +88,8 @@ def api_cartao():
                 usuario_id=cartao_encontrado.dono_id,
                 cartao_id=cartao_id,
                 tipo_acesso=entrada_ou_saida,
-                local="Rua Paula Gomes"
+                local="Rua Paula Gomes",
+                liberado_ou_bloqueado = True
             )
             acesso.salvar()
 
@@ -135,6 +147,14 @@ def api_cartao():
             tem_acesso=False
         )
         cartao.salvar()
+
+        acesso = Acesso(
+            usuario_id=None,
+            cartao_id=cartao_id,
+            tipo_acesso=None,
+            local="Rua Paula Gomes",
+            liberado_ou_bloqueado = False)
+        acesso.salvar()
 
         return jsonify({
             "status": "negado",
