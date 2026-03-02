@@ -26,13 +26,14 @@ def dashboard():
     grafico_moderador = criar_grafico_moderador()
     grafico_tipo_cliente = criar_grafico_tipo_cliente()
     acessos_hoje = pegar_acessos_hoje()
-    print(acessos_hoje)
     todos_clientes = pegar_todos_clientes()
     cartoes_ativos_porcentagem = cartoes_ativos()
     grafico_geral = criar_grafico_geral()
+    alertas = Acesso.query.filter_by(liberado_ou_bloqueado=False).count()
+    print("Alertas:", alertas)
     return render_template("dashboard.html", grafico_moderador=grafico_moderador, grafico_tipo_cliente=grafico_tipo_cliente,
                            acessos_hoje=acessos_hoje, todos_clientes=todos_clientes, cartoes_ativos_porcentagem=cartoes_ativos_porcentagem,
-                           grafico_geral=grafico_geral
+                           grafico_geral=grafico_geral, alertas=alertas
                            )
 
 

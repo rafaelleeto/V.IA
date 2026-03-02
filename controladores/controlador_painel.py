@@ -1,3 +1,4 @@
+from sqlalchemy import or_
 from flask import Blueprint, request, render_template, redirect, session, flash, jsonify, json
 from modelos import Moderador, Cliente, Cartao, Acesso
 from datetime import date, datetime, timedelta
@@ -189,11 +190,10 @@ def adicionar_registro():
         local="Manual - Paula Gomes",
         cartao_id=211,
         tipo_acesso=local,
-
+        liberado_ou_bloqueado=True
     )
     acesso.salvar()
     acessos = Acesso.query.order_by(Acesso.id.desc()).paginate(per_page=10)
-    acesso.salvar()
     mapa_cliente = mapa_cliente = {
         cliente.id: cliente for cliente in Cliente.query.all()}
     html_historico = render_template(
@@ -208,8 +208,6 @@ def adicionar_registro():
     )
     return html_historico + html_mensagem
 
-
-from sqlalchemy import or_
 
 @painel_blueprint.get("/htmx/busca_cartao")
 def buscar_cartao():
@@ -290,7 +288,8 @@ def editar_cartao(cartao_id):
 
         html_mensagem = render_template(
             "componentes/mensagem.html",
-            mensagens=[("success", "Acesso do cliente registrado com sucesso.")]
+            mensagens=[
+                ("success", "Acesso do cliente registrado com sucesso.")]
         )
 
         html_htmx = render_template(
@@ -317,12 +316,11 @@ def limpar_cartao(cartao_id):
     cartao.tem_acesso = False
     cartao.dono_id = None
     cartao.salvar()
-    
+
     html_mensagem = render_template(
         "componentes/mensagem.html",
         mensagens=[
             ("success", f"Cartão limpo com sucesso.")]
-    ) 
+    )
     html_htmx = render_template('componentes/cartao_unico.html', cartao=cartao)
     return html_htmx + html_mensagem
-    
